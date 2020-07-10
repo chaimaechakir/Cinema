@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	layout:decorator="template">
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+	<div layout:fragment="pageContent">
+		<div class="container mt-5">
+			<div class="card">
+				<div class="card-header">Liste Film</div>
+				<div class="card-body">
+					<div class="mb-5">
+						<form th:action=@{film} method="get">
+							<label> Nom film: </label> <input type="text" name="keyword" size="25px"placeholder="Rechercher par Nom de film" th:value="${keyword}" class="p-1" />
+							<button class="btn btn-success" >Chercher</button>
+						</form>
+					</div>
+					<div class="row">
+						<div th:each="f:${pagefilms}">
+						<div class="col-md-8">
+								<div class="card mb-2 text-black"
+									style="width: 15rem; background-color: #D8D8D8">
+									<img style="width: 238px; height: 220px;" class="card-img-top"
+										th:src="@{'/imageFilm/'+${f.id}}" alt="Card image cap">
+										
+										
+									<div class="card-body">
+										<h5 th:text="${f.titre}" class="card-title"></h5>
+										<div class="mb-2">Description:
+											<p th:text="${f.description}" class="card-text d-inline"></p>
+										</div>
+
+										<div class="mb-2">Réalisateur:
+											<p th:text="${f.realisateur}" class="card-text d-inline"></p>
+										</div>
+
+
+										<div class="mb-2"> Date de sortie:
+											<p th:text="${f.dateSortie}" class="card-text d-inline"></p>
+										</div>
+
+										<div class="mb-2">Duree:
+											<p th:text="${f.duree}" class="card-text d-inline"></p>
+										</div>
+
+
+										<div class="mb-2">Categorie:
+											<p th:text="${f.categorie.name}" class="card-text d-inline"></p>
+										</div>
+										<a onclick="return confirm('Voulez-vous bien supprimer ce film??')" class="btn btn-danger"
+											th:href="@{supprimerFilm(id=${f.id},page=${currentpage},size=${size},keyword=${keyword})}">
+											Supprimer</a> <a class="btn btn-success" th:href="@{modifierFilm(id=${f.id})}">Modifier</a>
+										
+									</div>
+								</div>
+							</div>
+							
+					<div th:if="${modeSup=='nonAutorise'}" class="alert alert-danger" role="alert">
+						Impossible de supprimer ce film
+						<p class="d-inline" th:text="${id_courant}"></p>
+						
+					</div>
+					<div th:if="${modeSup=='Autorise'}" class="alert alert-success"	role="alert">
+						La suppression du 
+						<p class="d-inline" th:text="${id_courant}"></p>
+						film est bien effectuée
+
+					</div>
+					</div>
+					</div>
+					
+					<div class="d-flex justify-content-center">
+					<ul class="nav nav-pills ">
+						<li th:each="page,status:${pages}">
+						<a th:class="${status.index==currentpage?'btn btn-primary':'btn btn-light'}"
+							th:href="@{film(page=${status.index},keyword=${keyword})}"
+							th:text="${status.index}+1"></a></li>
+					</ul>
+					</div>
+					
+					
+						</div>
+					</div>
+
+
+
+				</div>
+			</div>
+
+	
+		
+
+</body>
+</html>

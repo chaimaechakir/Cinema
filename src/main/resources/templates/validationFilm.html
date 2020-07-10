@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf"
+	layout:decorator="template">
+<head>
+<meta charset="UTF-8">
+<title>Form Film</title>
+</head>
+<body>
+	<div layout:fragment="pageContent">
+		<div class="container mt-5">
+			<div class="card">
+				<div class="card-header">Formulaire validé</div>
+				<div class="card-body">
+					<div class="form-group">
+						<label>ID: </label> <label class="font-weight-bold"
+							th:text="${film.id}"></label>
+					</div>
+					<div class="form-group">
+						<label>Titre: </label> <label class="font-weight-bold"
+							th:text="${film.titre}"></label>
+					</div>
+
+					<div class="form-group">
+						<label>Description : </label> <label class="font-weight-bold"
+							th:text="${film.description}"></label>
+					</div>
+
+					<div class="form-group">
+						<label>Realisateur: </label> <label class="font-weight-bold"
+							th:text="${film.realisateur}"></label>
+					</div>
+
+					<div class="form-group">
+						<label>Date Sortie:</label> <label class="font-weight-bold"
+							th:value="${film.dateSortie}"></label>
+					</div>
+					<div class="form-group">
+						<label>Duree:</label> <label class="font-weight-bold"
+							th:value="${film.duree}"></label>
+					</div>
+
+					<div class="form-group">
+						<label>Photo :</label> <label class="font-weight-bold"
+							th:value="${film.Photo}"></label>
+					</div>
+
+
+				</div>
+			</div>
+		</div>
+		
+	</div>
+</body>
+</html>

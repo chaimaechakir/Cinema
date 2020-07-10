@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymleaf.org"
+			xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+			xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+			layout:decorator="template">
+<head>
+<meta charset="UTF-8">
+<title>CineCh</title>
+</head>
+<body>
+	<div layout:fragment="pageContent">
+	<div class="container mt-5">
+			<div class="card">
+				<div class="card-header">Liste des Cinémas</div>
+				<div class="card-body">
+					<form  th:action="@{cinema}" method="get" >
+					<label>Nom: </label>
+					<input type="text"  placeholder="Rechercher par cinéma" name="keyword" th:value="${keyword}" />
+					<input type="hidden" name="ville" th:value="${ville}">
+					<button class="btn btn-success">Chercher</button>
+					</form>
+					<table class="table">
+						<tr>
+							<th>ID</th>
+							<th>Altitude</th>
+							<th>Latitude</th>
+							<th>Longitude</th>
+							<th>Name</th>
+							<th>Nombre Salle</th>
+							<th>Ville</th>
+						</tr>
+						<tr th:each="p:${pagecinemas}">
+							<td th:text="${p.id}"></td>
+							<td th:text="${p.altitude}"></td>
+							<td th:text="${p.latitude}"></td>
+							<td th:text="${p.longitude}"></td>
+							<td th:text="${p.name}"></td>
+							<td th:text="${p.nombreSalles}"></td>
+							<td th:text="${p.ville.name}"></td>
+							<td sec:authorize="hasRole('ROLE_ADMIN')"><a
+								onclick="return confirm('Voulez-vous bien le supprimer ??')"
+								class="btn btn-danger "
+								th:href="@{supprimerCinema(id=${p.id},page=${currentpage},size=${size},keyword=${keyword})}">
+									Supprimer</a></td>
+							<td sec:authorize="hasRole('ROLE_ADMIN')"><a class="btn btn-success"
+								   th:href="@{modifierCinema(id=${p.id})}">Modifier</a></td>	 
+						</tr>
+					</table>
+					<div th:if="${modeSup=='nonAutorise'}" class="alert alert-danger"
+						role="alert">
+						impossible de supprimer le
+						<p class="d-inline" th:text="${id_courant}"></p>
+						 cinéma
+					</div>
+					<div th:if="${modeSup=='Autorise'}" class="alert alert-info"
+						role="alert">
+						la suppression du cinéma
+						<p class="d-inline" th:text="${id_courant}"></p>
+						est bien effectuée
+					</div>
+					<div class="d-flex justify-content-center">
+					<ul class="nav nav-pills">
+						<li th:each="page,status:${pages}"><a
+							th:class="${status.index==currentpage?'btn btn-primary':'btn btn-light'}"
+							th:href="@{cinema(page=${status.index},keyword=${keyword})}"
+							th:text="${status.index}+1"></a>
+						</li>
+					</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

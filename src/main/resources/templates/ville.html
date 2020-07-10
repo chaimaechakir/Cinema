@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymleaf.org"
+			xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+			xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+			layout:decorator="template">
+<head>
+<meta charset="UTF-8">
+<title>CineCh</title>
+</head>
+<body>
+	<div layout:fragment="pageContent">
+	<div class="container mt-5">
+			<div class="card">
+				<div class="card-header">Liste des Villes</div>
+				<div class="card-body">
+					<form  th:action="@{ville}" method="get" >
+					<label>Nom: </label>
+					<input type="text"  placeholder="Rechercher par ville" name="keyword" th:value="${keyword}" />
+					
+					<button class="btn btn-success">Chercher</button>
+					</form>
+					<table class="table">
+						<tr>
+							<th>ID</th>
+							<th>Name</th>
+							<th>Cinemas</th>
+						</tr>
+						<tr th:each="v:${villes}">
+							<td th:text="${v.id}"></td>
+							<td th:text="${v.name}"></td>
+							<td><a class="btn btn-success"
+							th:href="@{cinema(ville=${v.id})}">Display</a></td>
+							<!-- <td sec:authorize="hasRole('ROLE_ADMIN')"><a
+								onclick="return confirm('Voulez-vous bien le supprimer ??')"
+								class="btn btn-danger"
+								th:href="@{supprimerCinema(id=${p.id},page=${currentpage},size=${size},keyword=${keyword})}">
+									Supprimer</a></td>
+							<td sec:authorize="hasRole('ROLE_ADMIN')"><a class="btn btn-success"
+								   th:href="@{modifierCinema(id=${p.id})}">Modifier</a></td> -->	 
+						</tr>
+					</table>
+					<div th:if="${modeSup=='nonAutorise'}" class="alert alert-danger"
+						role="alert">
+						impossible de supprimer le
+						<p class="d-inline" th:text="${id_courant}"></p>
+						 ville
+					</div>
+					<div th:if="${modeSup=='Autorise'}" class="alert alert-info"
+						role="alert">
+						la suppression du ville
+						<p class="d-inline" th:text="${id_courant}"></p>
+						est bien effectuée
+					</div>
+					<div class="d-flex justify-content-center">
+					<ul class="nav nav-pills">
+						<li th:each="page,status:${pages}"><a
+							th:class="${status.index==currentpage?'btn btn-primary':'btn btn-light'}"
+							th:href="@{ville(page=${status.index},keyword=${keyword})}"
+							th:text="${status.index}+1"></a>
+						</li>
+					</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+
+<head>
+<meta charset="UTF-8">
+<title>CineCH</title>
+<link rel="stylesheet" type="text/css"
+	href="/webjars/bootstrap/4.1.3/css/bootstrap.min.css" />
+<script src="/webjars/jquery/3.4.1/jquery.min.js"></script>
+<script src="/webjars/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+	<nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+  <!-- Brand/logo -->
+ <a href="#" class="pull-left"><img src="D:\\CHAIMAE\\Emsi_work\\eclipse-workspace\\Cinema\\images\\logo.png"></a>
+		 
+		
+
+		<!-- Links -->
+		<ul class="navbar-nav">
+			<li class="nav-item"><a class="nav-link" href="/">Home</a></li>
+						<!-- Dropdown -->
+			<li class="nav-item dropdown">
+			<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Ville</a>
+				<div class="dropdown-menu">
+					<a	class="dropdown-item"  th:href="@{ville}">Visualiser</a>
+				</div></li>	
+				<!-- Dropdown -->
+			<li class="nav-item dropdown">
+				<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Cinema</a>
+				<div class="dropdown-menu">
+					<a  sec:authorize="hasRole('ROLE_ADMIN')" class="dropdown-item"  th:href="@{formCinema}">Ajouter</a> 
+					<a	class="dropdown-item"  th:href="@{cinema}">Visualiser</a>
+				</div></li>
+				<!-- Dropdown -->
+			<li class="nav-item dropdown">
+			<a	class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Film</a>
+				<div class="dropdown-menu">
+					<a  sec:authorize="hasRole('ROLE_ADMIN')"  class="dropdown-item"   th:href="@{formFilm}">Ajouter</a>
+					 <a	class="dropdown-item" th:href="@{film}">Visualiser</a>
+				</div></li>
+					<!-- Dropdown -->
+			<li class="nav-item dropdown">
+			<a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">Projection</a>
+				<div class="dropdown-menu">
+					<a  sec:authorize="hasRole('ROLE_ADMIN')" class="dropdown-item"  th:href="@{formProjection}">Ajouter</a> 
+					<a	class="dropdown-item"  th:href="@{projection}">Visualiser</a>
+				</div></li>	
+					
+				
+		</ul>
+		<ul class="navbar-nav ml-auto">
+			<!-- Dropdown -->
+			<li class="nav-item dropdown">
+			<a	class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+			<span sec:authorize="isAuthenticated()">
+			<span sec:authentication="name"></span>
+			</span>
+			<span sec:authorize="!isAuthenticated()">
+			<span >LOG IN</span>
+			</span>
+			</a>
+				<div class="dropdown-menu">
+				
+					<a     sec:authorize="isAnonymous()" class="dropdown-item" th:href="@{login}">Login</a>
+					 <a	sec:authorize="isAuthenticated()" class="dropdown-item"  th:href="@{logout}">Logout</a> 
+				
+				</div></li>
+		</ul>
+	</nav>
+	  <!-- Footer -->
+  <footer class="py-5 bg-black">
+    <div class="container">
+      <p class="m-0 text-center text-white small">Copyright &copy; CHAKIR Chaimae 2020</p>
+    </div>
+  </footer>
+	<section layout:fragment="pageContent"></section>
+</body>
+</html>

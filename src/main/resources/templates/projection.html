@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5"
+	layout:decorator="template">
+<head>
+<meta charset="UTF-8">
+</head>
+<body>
+	<div layout:fragment="pageContent">
+		<div class="container mt-5">
+			<div class="card">
+				<div class="card-header">Liste Projections
+				
+				</div>
+				<div class="card-body">
+					<div class="mb-5">
+						<form th:action=@{projection} method="get">
+							<label>Nom film: </label> <input type="text" name="keyword" size="25px"placeholder="Rechercher par Nom de film"	th:value="${keyword}" class="p-1" />
+							<button class="btn btn-success">Chercher</button>
+						</form>
+					</div>
+					<table class="table table-striped">
+						<tr>
+							<th>ID</th>
+							<th>date projection</th>
+							<th>prix</th>
+							<th>film</th>
+							<th>salle</th>
+							<th>seance</th>
+							<th></th>
+							<th></th>
+						</tr>
+						<tr th:each="p:${pageprojections.content}">
+							<td th:text="${p.id}"></td>
+							<td th:text="${p.dateProjection}"></td>
+							<td th:text="${p.prix}"></td>
+							<td th:text="${p.film.titre}"></td>
+							<td th:text="${p.salle.name}"></td>
+							<td th:text="${p.seance.heureDebut}"></td>
+							<td><a
+								onclick="return confirm('Voulez-vous bien la supprimer??')"
+								class="btn btn-danger"
+								th:href="@{supprimerProjection(id=${p.id},page=${currentpage},size=${size},keyword=${keyword})}">
+									Supprimer</a></td>
+							<td><a class="btn btn-success"
+								th:href="@{modifierProjection(id=${p.id})}">Modifier</a></td>
+						</tr>
+					</table>
+					<div th:if="${modeSup=='nonAutorise'}" class="alert alert-danger"
+						role="alert">
+						Impossible de supprimer la projection
+						<p class="d-inline" th:text="${id_courant}"></p>
+					</div>
+					<div th:if="${modeSup=='Autorise'}" class="alert alert-success"
+						role="alert">
+						La suppression de la projection 
+						<p class="d-inline" th:text="${id_courant}"></p>
+						est effectuée
+
+					</div>
+					<ul class="nav nav-pills">
+						<li th:each="page,status:${pages}"><a
+							th:class="${status.index==currentpage?'btn btn-primary':'btn btn-light'}"
+							th:href="@{projection(page=${status.index},keyword=${keyword})}"
+							th:text="${status.index}+1"></a></li>
+					</ul>
+				</div>
+			</div>
+
+		</div>
+		
+
+	</div>
+</body>
+</html>

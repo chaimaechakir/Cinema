@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf"
+	layout:decorator="template">
+<head>
+<meta charset="UTF-8">
+<title>Form Projection</title>
+</head>
+<body>
+	<div layout:fragment="pageContent">
+		<div class="container mt-5">
+			<div class="d-flex justify-content-center">
+				<div class="card" style="width: 500px;">
+					<div class="card-header" th:if="${mode=='nouveau'}">Nouvelle projection</div>
+					<div class="card-header" th:if="${mode=='modifier'}">Mettre à jour la projection</div>
+					<div class="card-body">
+						<form th:action="@{enregistrerProjection}" method="post">
+
+							<div class="form-group">
+								<label class="control-label">ID: </label> <label
+									class="control-label" th:text="${projection.id}"></label> <input
+									type="hidden" name="id" class="form-control"
+									th:value="${projection.id}">
+							</div>
+							<div class="form-group">
+								<label class="control-label">date projection: </label> <input
+									type="date" name="dateProjection" class="form-control"
+									th:value="${projection.dateProjection}"> <span
+									th:errors=${projection.dateProjection} class="text-danger"></span>
+							</div>
+							<div class="form-group">
+								<label class="control-label">prix: </label> <input type="text"
+									name="prix" class="form-control" th:value="${projection.prix}">
+								<span th:errors=${projection.prix} class="text-danger"></span>
+							</div>
+							<div class="form-group">
+								<label class="control-label">film:</label> <select name="film"
+									class="form-control">
+									<option th:each="f:${films}" th:text="${f.titre}"
+										class="form-control" th:value="${f.id}"
+										th:selected="${f.titre}==${projection.film.titre}"
+										th:if="${mode=='modifier'}"></option>
+
+									<option th:each="f:${films}" th:text="${f.titre}"
+										class="form-control" th:value="${f.id}" th:if="${mode=='nouveau'}"></option>
+								</select>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label">salle:</label> <select name="salle"
+									class="form-control">
+									<option th:each="s:${salles}" th:text="${s.name}"
+										class="form-control" th:value="${s.id}"
+										th:selected="${s.name}==${projection.salle.name}"
+										th:if="${mode=='modifier'}"></option>
+
+									<option th:each="s:${salles}" th:text="${s.name}"
+										class="form-control" th:value="${s.id}" th:if="${mode=='nouveau'}"></option>
+								</select>
+							</div>
+
+							<div class="form-group">
+								<label class="control-label">seance:</label> <select name="seance"
+									class="form-control">
+									<option th:each="s:${seances}" th:text="${s.heureDebut}"
+										class="form-control" th:value="${s.id}"
+										th:selected="${s.heureDebut}==${projection.seance.heureDebut}"
+										th:if="${mode=='modifier'}"></option>
+
+									<option th:each="s:${seances}" th:text="${s.heureDebut}"
+										class="form-control" th:value="${s.id}" th:if="${mode=='nouveau'}"></option>
+								</select>
+							</div>
+
+							<button class="bnt btn-success" type="submit">Valider</button>
+						</form>
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+	
+	</div>
+</body>
+</html>
+,
